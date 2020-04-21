@@ -1,0 +1,35 @@
+---
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres:12
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      GOGOMEDIA_DB_USER: gogomedia_user
+      GOGOMEDIA_DB_PASS: gogomedia_pass
+      GOGOMEDIA_DB_NAME: gogomedia
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./data/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh
+    ports:
+      - 5432:5432
+  gogomedia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gogomedia:local
+    container_name: gogomedia
+    command: bash -c "python app.py"
+    environment:
+      ENVIRONMENT: local
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: gogomedia_user
+      DB_PASS: gogomedia_pass
+      DB_NAME: gogomedia
+    volumes:
+      - ./server:/usr/src/app

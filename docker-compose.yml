@@ -39,6 +39,8 @@ services:
       TEST_DB_NAME: gogomedia_test
     volumes:
       - ./server:/usr/src/app
+    ports:
+      - 5000:5000
   gogomedia-client:
     build:
       context: ./client

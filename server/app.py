@@ -6,6 +6,8 @@ from database import db
 from routes import add_routes
 
 
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'local')
+
 TEST_DB_HOST = os.environ.get('TEST_DB_HOST')
 TEST_DB_PORT = os.environ.get('TEST_DB_PORT')
 TEST_DB_USER = os.environ.get('TEST_DB_USER')
@@ -47,4 +49,4 @@ def create_app(test=False):
 app = create_app()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
